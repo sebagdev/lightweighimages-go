@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-errors/errors"
@@ -53,11 +54,14 @@ func iseven(val int) (*Data, error) {
 
 func main() {
 	r := gin.Default()
+	r.SetTrustedProxies(nil)
 	r.Use(gin.CustomRecovery(ErrorHandler))
+	r.UseRawPath = true
+	r.UnescapePathValues = true
 
-	r.GET("/ping", func(c *gin.Context) {
+	r.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message": "pong",
+			"status": "OK",
 		})
 	})
 
@@ -73,6 +77,21 @@ func main() {
 			"even": b.IsEven,
 		})
 
+	})
+
+	r.GET("/current-time/:timezone", func(c *gin.Context) {
+		timezone := c.Param("timezone")
+		loc, err := time.LoadLocation(timezone)
+		if err != nil {
+			c.JSON(500, gin.H{
+				"error": fmt.Sprintf("Error loading timezone: %v", err),
+			})
+			return
+		}
+		now := time.Now().In(loc)
+		c.JSON(200, gin.H{
+			"current_time": now.Format(time.RFC3339),
+		})
 	})
 
 	r.Run() // listen and serve on 0.0.0.0:8080
