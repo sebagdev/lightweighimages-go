@@ -79,7 +79,7 @@ func main() {
 
 	})
 
-	r.GET("/current-time/:timezone", func(c *gin.Context) {
+	r.GET("/currentTime/:timezone", func(c *gin.Context) {
 		timezone := c.Param("timezone")
 		loc, err := time.LoadLocation(timezone)
 		if err != nil {

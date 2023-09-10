@@ -1,0 +1,44 @@
+version: '3'
+services:
+  golang_raw_build:
+    build:
+      context: ./
+      dockerfile: ./dockerfiles/1_golang_raw_build/Dockerfile
+    image: golang_raw_build_image:1
+
+  multistage_build:
+    build:
+      context: ./
+      dockerfile: ./dockerfiles/2_multistage_build/Dockerfile
+    image: multistage_build_image:2
+
+  alpine_build:
+    build:
+      context: ./
+      dockerfile: ./dockerfiles/3_alpine_build/Dockerfile
+    image: alpine_build_image:3
+
+  smaller_out_alpine_image:
+    build:
+      context: ./
+      dockerfile: ./dockerfiles/4_smaller_out_alpine_image/Dockerfile
+    image: smaller_out_alpine_image:4
+
+  scratch_image:
+    build:
+      context: ./
+      dockerfile: ./dockerfiles/5_scratch_image/Dockerfile
+    image: scratch_image:5
+
+  distroless:
+    build:
+      context: ./
+      dockerfile: ./dockerfiles/6_distroless_gcr/Dockerfile
+    image: distroless_image:6
+
+  distroless_cgr:
+    build:
+      context: ./
+      dockerfile: ./dockerfiles/7_distroless_cgr/Dockerfile
+    image: distroless_image:7
+
