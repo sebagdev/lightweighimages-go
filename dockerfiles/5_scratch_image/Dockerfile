@@ -1,4 +1,4 @@
-FROM golang:1.19 as builder
+FROM golang:1.21 as builder
 
 WORKDIR /usr/src/app
 RUN useradd -u 10001 goapp
@@ -13,7 +13,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -v -o /usr/local/bin/app ./...
 FROM scratch
 WORKDIR /bin/
 COPY --from=builder /etc/passwd /etc/passwd
-#COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
+COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
 COPY --from=builder /etc/ssl/certs /etc/ssl/certs
 COPY --from=builder /usr/local/bin/app .
 

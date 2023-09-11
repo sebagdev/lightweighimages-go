@@ -1,4 +1,4 @@
-FROM golang:1.19-alpine as builder
+FROM golang:1.21-alpine as builder
 
 WORKDIR /usr/src/app
 
@@ -10,7 +10,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -v -o /usr/local/bin/app ./...
 
 
-FROM golang:1.19-alpine
+FROM golang:1.21-alpine
 WORKDIR /bin/
 COPY --from=builder /usr/local/bin/app .
 

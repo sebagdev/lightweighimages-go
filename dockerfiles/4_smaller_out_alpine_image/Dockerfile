@@ -1,4 +1,4 @@
-FROM golang:1.19-alpine as builder
+FROM golang:1.21-alpine as builder
 
 WORKDIR /usr/src/app
 
@@ -11,7 +11,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -v -o /usr/local/bin/app ./...
 
 
 FROM alpine
-#RUN apk add --no-cache tzdata
+RUN apk add --no-cache tzdata
 WORKDIR /bin/
 COPY --from=builder /usr/local/bin/app .
 

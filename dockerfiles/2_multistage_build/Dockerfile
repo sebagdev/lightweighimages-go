@@ -1,4 +1,4 @@
-FROM golang:1.19 as builder
+FROM golang:1.21 as builder
 
 WORKDIR /usr/src/app
 
@@ -10,7 +10,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -v -o /usr/local/bin/app ./...
 
 
-FROM golang:1.19
+FROM golang:1.21
 WORKDIR /bin/
 COPY --from=builder /usr/local/bin/app .
 
